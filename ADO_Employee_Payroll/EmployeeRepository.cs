@@ -198,7 +198,7 @@ namespace ADO_Employee_Payroll
 
         }
 
-        //Usecase 5: Finds the employees in a given range from start date to current
+        //Usecase 6: Aggregate Functions
         public string AggregateFunctionBasedOnGender(string query)
         {
             string nameList = "";

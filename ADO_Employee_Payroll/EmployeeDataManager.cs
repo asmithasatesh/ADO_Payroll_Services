@@ -19,5 +19,10 @@ namespace ADO_Employee_Payroll
         public double TaxablePay { get; set; }
         public double NetPay { get; set; }
 
+        //ER Diagram Elements
+        public int CompanyID { get; set; }
+        public string CompanyName { get; set; }
+
+
     }
 }
