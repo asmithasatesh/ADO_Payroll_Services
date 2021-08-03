@@ -24,6 +24,9 @@ namespace ADO_Employee_Payroll
                     employeeDataManager.EmployeeName = "Rujula";
                     employeeRepository.RetrieveQuery(employeeDataManager);
                     break;
+                case 4:
+                    employeeRepository.DataBasedOnDateRange();
+                    break;
             }
 
 
