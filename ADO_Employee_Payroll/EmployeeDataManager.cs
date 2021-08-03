@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ADO_Employee_Payroll
 {
-    class EmployeeDataManager
+    public class EmployeeDataManager
     {
         public int EmployeeID { get; set; }
         public string EmployeeName { get; set; }
