@@ -19,6 +19,11 @@ namespace ADO_Employee_Payroll
                 case 2:
                     employeeRepository.UpdateSalaryQuery();
                     break;
+                case 3:
+                    EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+                    employeeDataManager.EmployeeName = "Rujula";
+                    employeeRepository.RetrieveQuery(employeeDataManager);
+                    break;
             }
 
 
