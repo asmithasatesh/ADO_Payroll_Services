@@ -9,7 +9,19 @@ namespace ADO_Employee_Payroll
             Console.WriteLine("Welcome to Payroll Services using ADO!");
             //Create oobject for Employee Repository
             EmployeeRepository employeeRepository = new EmployeeRepository();
-            employeeRepository.GetSqlData();
+            Console.WriteLine("Enter 1-To Read all Data from Sql server\nEnter 2-To Update Salary to 3000000\n");
+            int option = Convert.ToInt32(Console.ReadLine());
+            switch(option)
+            {
+                case 1:
+                    employeeRepository.GetSqlData();
+                    break;
+                case 2:
+                    employeeRepository.UpdateSalaryQuery();
+                    break;
+            }
+
+
 
         }
     }
