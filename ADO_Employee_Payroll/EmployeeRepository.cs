@@ -15,6 +15,7 @@ namespace ADO_Employee_Payroll
 
         //Create Object for EmployeeData Repository
         EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+
         public void GetSqlData()
         {
             //Open Connection

@@ -8,11 +8,13 @@ namespace ADOEmployeePayrollTesting
     {
         EmployeeRepository employeeRepository;
         ERRepository eRRepository;
+        TransactionClass transactionClas;
         [TestInitialize]
         public void SetUp()
         {
             employeeRepository = new EmployeeRepository();
             eRRepository = new ERRepository();
+            transactionClas = new TransactionClass();
         }
 
         //Usecase 3: Update basic pay in Sql Server
@@ -126,6 +128,7 @@ namespace ADOEmployeePayrollTesting
             string actual = eRRepository.DataBasedOnDateRange();
             Assert.AreEqual(actual, expected);
         }
+        //Usecase 6: Aggregate Functions
         [TestMethod]
         [TestCategory("Using SQL Query for Female")]
         public void GivenGenderFemale_ERTable_GroupBygender_ReturnAggregateFunction()
@@ -149,5 +152,50 @@ namespace ADOEmployeePayrollTesting
         }
 
 
+        /// <summary>
+        /// Transaction Queries
+        /// </summary>
+
+        //Usecase 10: Insert in ER using Transaction
+        [TestMethod]
+        [TestCategory("Using Transaction Query")]
+        public void GivenInsertQuery_usingTransaction_returnOne()
+        {
+            int expected = 1;
+            TransactionClass transactionClass = new TransactionClass();
+            int actual=transactionClass.InsertIntoTables();
+            Assert.AreEqual(actual, expected);
+        }
+        //Usecase 11: Delete using Cascade Delete alteration
+        [TestMethod]
+        [TestCategory("Using Transaction Query")]
+        public void GivenDeleteQuery_usingTransaction_returnOne()
+        {
+            int expected = 1;
+            TransactionClass transactionClass = new TransactionClass();
+            int actual = transactionClass.DeleteUsingCasadeDelete();
+            Assert.AreEqual(actual, expected);
+        }
+        //Usecase 12: Add IsActive Field
+        [TestMethod]
+        [TestCategory("Using Transaction Query")]
+        public void AlterTablewithIsActive_usingTransaction_returnOne()
+        {
+            string expected="Updated";
+            TransactionClass transactionClass = new TransactionClass();
+            string actual = transactionClass.AddIsActiveColumn();
+            Assert.AreEqual(actual, expected);
+        }
+        //Usecase 12:Delete user from List and set IsActive as 0
+        [TestMethod]
+        [TestCategory("Using Transaction Query")]
+        public void GivenUpdateQuery_usingTransaction_returnOne()
+        {
+            int expected = 1;
+            TransactionClass transactionClass = new TransactionClass();
+            int actual = transactionClas.MaintainListforAudit(6);
+            transactionClass.RetrieveAllData();
+            Assert.AreEqual(actual, expected);
+        }
     }
 }
