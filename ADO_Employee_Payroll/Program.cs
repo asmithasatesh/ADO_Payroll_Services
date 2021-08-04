@@ -34,10 +34,11 @@ namespace ADO_Employee_Payroll
                 case 6:
                     eRRepository.UpdateSalaryQuery();
                     break;
+                case 7:
+                    TransactionClass transactionClass = new TransactionClass();
+                    transactionClass.InsertIntoTables();
+                    break;
             }
-
-
-
         }
     }
 }
