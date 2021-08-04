@@ -212,8 +212,6 @@ namespace ADO_Employee_Payroll
             }
             //returns the count of employee in the list between the given range
             return nameList;
-
         }
-
     }
 }

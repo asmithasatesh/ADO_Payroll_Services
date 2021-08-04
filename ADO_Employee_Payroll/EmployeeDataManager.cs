@@ -23,6 +23,9 @@ namespace ADO_Employee_Payroll
         public int CompanyID { get; set; }
         public string CompanyName { get; set; }
 
+        //Transaction
+        public int IsActive { get; set; }
+
 
     }
 }
