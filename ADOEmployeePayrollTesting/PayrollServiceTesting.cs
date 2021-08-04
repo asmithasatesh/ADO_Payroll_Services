@@ -126,6 +126,7 @@ namespace ADOEmployeePayrollTesting
             string actual = eRRepository.DataBasedOnDateRange();
             Assert.AreEqual(actual, expected);
         }
+        //Usecase 6: Aggregate Functions
         [TestMethod]
         [TestCategory("Using SQL Query for Female")]
         public void GivenGenderFemale_ERTable_GroupBygender_ReturnAggregateFunction()
@@ -148,6 +149,11 @@ namespace ADOEmployeePayrollTesting
             Assert.AreEqual(actual, expected);
         }
 
+
+        /// <summary>
+        /// Transaction Queries
+        /// </summary>
+
         //Usecase 10: Insert in ER using Transaction
         [TestMethod]
         [TestCategory("Using Transaction Query")]
@@ -158,7 +164,16 @@ namespace ADOEmployeePayrollTesting
             int actual=transactionClass.InsertIntoTables();
             Assert.AreEqual(actual, expected);
         }
-
+        //Usecase 11: Delete using Cascade Delete alteration
+        [TestMethod]
+        [TestCategory("Using Transaction Query")]
+        public void GivenDeleteQuery_usingTransaction_returnOne()
+        {
+            int expected = 1;
+            TransactionClass transactionClass = new TransactionClass();
+            int actual = transactionClass.DeleteUsingCasadeDelete();
+            Assert.AreEqual(actual, expected);
+        }
 
     }
 }

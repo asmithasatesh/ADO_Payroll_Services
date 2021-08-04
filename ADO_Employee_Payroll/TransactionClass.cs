@@ -7,7 +7,7 @@ namespace ADO_Employee_Payroll
 {
     public class TransactionClass
     {
-        //D
+
         public static string connectionString = @"Server=.;Database=payroll_services;Trusted_Connection=True;";
         SqlConnection SqlConnection = new SqlConnection(connectionString);
         //Transaction Query
@@ -44,6 +44,34 @@ namespace ADO_Employee_Payroll
                     //Rollback to the point before exception
                     sqlTransaction.Rollback();
                     result = 1;
+                }
+            }
+            return result;
+        }
+
+        public int DeleteUsingCasadeDelete()
+        {
+            int result = 0;
+            using (SqlConnection)
+            {
+                SqlConnection.Open();
+                //Begin SQL transaction
+                SqlTransaction sqlTransaction = SqlConnection.BeginTransaction();
+                SqlCommand sqlCommand = SqlConnection.CreateCommand();
+                sqlCommand.Transaction = sqlTransaction;
+                try
+                {
+                    sqlCommand.CommandText = "delete from employee where EmployeeID='4'";
+                    result = sqlCommand.ExecuteNonQuery();
+                    sqlTransaction.Commit();
+                    Console.WriteLine("Updated!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    //Rollback to the point before exception
+                    sqlTransaction.Rollback();
+                    Console.WriteLine("Not Updated!");
                 }
             }
             return result;
