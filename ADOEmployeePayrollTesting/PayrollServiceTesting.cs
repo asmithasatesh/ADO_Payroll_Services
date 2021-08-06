@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ADO_Employee_Payroll;
+using System.Diagnostics;
+using System;
 
 namespace ADOEmployeePayrollTesting
 {
@@ -197,5 +199,22 @@ namespace ADOEmployeePayrollTesting
             transactionClass.RetrieveAllData();
             Assert.AreEqual(actual, expected);
         }
+
+        //MultiThreading: Usecase 1
+        //Usecase 10: Insert in ER using Transaction
+        [TestMethod]
+        [TestCategory(" Using Multi-Threating ")]
+        public void GivenInsertQuery_usingMultiThreading_returnOne()
+        {
+            int expected = 1;
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            TransactionClass transactionClass = new TransactionClass();
+            int actual = transactionClass.InsertIntoTables();
+            stopWatch.Stop();
+            Console.WriteLine("Duration without thread: {0}", stopWatch.ElapsedMilliseconds);
+            Assert.AreEqual(actual, expected);
+        }
+
     }
 }

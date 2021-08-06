@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
+
 
 namespace ADO_Employee_Payroll
 {
@@ -42,7 +44,6 @@ namespace ADO_Employee_Payroll
                     sqlCommand.ExecuteNonQuery();
                     sqlCommand.CommandText = "Insert into EmployeeDepartment values('3','5')";
                     sqlCommand.ExecuteNonQuery();
-
                     //Commit 
                     sqlTransaction.Commit();
                     Console.WriteLine("Updated!");
@@ -142,6 +143,7 @@ namespace ADO_Employee_Payroll
             SqlConnection.Close();
             return result;
         }
+
         public void  RetrieveAllData()
         {
             //Open Connection
@@ -152,12 +154,12 @@ namespace ADO_Employee_Payroll
                 string query = "SELECT CompanyID,IsActive,CompanyName,EmployeeID,EmployeeName,EmployeeAddress,EmployeePhoneNumber,StartDate,Gender,BasicPay,Deductions,TaxablePay,IncomeTax,NetPay,DepartName FROM Company INNER JOIN Employee ON Company.CompanyID = Employee.CompanyIdentity and Employee.IsActive=1 INNER JOIN PayrollCalculate on PayrollCalculate.EmployeeIdentity = Employee.EmployeeID INNER JOIN EmployeeDepartment on Employee.EmployeeID = EmployeeDepartment.EmployeeIdentity INNER JOIN Department on Department.DepartmentId = EmployeeDepartment.DepartmentIdentity";
                 SqlCommand sqlCommand = new SqlCommand(query, SqlConnection);
                 DisplayEmployeeDetails(sqlCommand);
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+
             //Close Connection
             SqlConnection.Close();
             return;
