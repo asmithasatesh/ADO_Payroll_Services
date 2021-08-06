@@ -202,8 +202,9 @@ namespace ADO_Employee_Payroll
                 //Read each row
                 while (sqlDataReader.Read())
                 {
+                    EmployeeDataManager employeeDataManager = new EmployeeDataManager();
 
-                //Read data SqlDataReader and store 
+                    //Read data SqlDataReader and store 
                     employeeDataManager.EmployeeID = Convert.ToInt32(sqlDataReader["EmployeeID"]);
                     employeeDataManager.CompanyID = Convert.ToInt32(sqlDataReader["CompanyID"]);
                     employeeDataManager.EmployeeName = sqlDataReader["EmployeeName"].ToString();
@@ -219,17 +220,26 @@ namespace ADO_Employee_Payroll
                     employeeDataManager.Address = sqlDataReader["EmployeeAddress"].ToString();
                     employeeDataManager.StartDate = Convert.ToDateTime(sqlDataReader["StartDate"]);
                     employeeDataManager.IsActive = Convert.ToInt32(sqlDataReader["IsActive"]);
+                    employeeList.Add(employeeDataManager);
                     //Display Data
                     Task task = new Task(() =>
                     {
                         Console.WriteLine("\nCompany ID: {0} \t Company Name: {1} \nEmployee ID: {2} \t Employee Name: {3} \nBasic Pay: {4} \t Deduction: {5} \t Income Tax: {6} \t Taxable Pay: {7} \t NetPay: {8} \nGender: {9} \t PhoneNumber: {10} \t Department: {11} \t Address: {12} \t Start Date: {13} \t IsActive: {14}", employeeDataManager.CompanyID, employeeDataManager.CompanyName, employeeDataManager.EmployeeID, employeeDataManager.EmployeeName, employeeDataManager.BasicPay, employeeDataManager.Deduction, employeeDataManager.IncomeTax, employeeDataManager.TaxablePay, employeeDataManager.NetPay, employeeDataManager.Gender, employeeDataManager.EmployeePhoneNumber, employeeDataManager.EmployeeDepartment, employeeDataManager.Address, employeeDataManager.StartDate, employeeDataManager.IsActive);
-                        employeeList.Add(employeeDataManager);
+
                     });
                     task.Start();
                 }
+
                 //Close sqlDataReader Connection
                 sqlDataReader.Close();
             }       
+        }
+        public void displayList()
+        {
+            foreach(var i in employeeList)
+            {
+                Console.WriteLine(i.EmployeeName);
+            }
         }
     }
 }
