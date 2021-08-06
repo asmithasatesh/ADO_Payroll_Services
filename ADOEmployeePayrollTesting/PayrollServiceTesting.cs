@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ADO_Employee_Payroll;
 using System.Diagnostics;
 using System;
+using System.Threading.Tasks;
 
 namespace ADOEmployeePayrollTesting
 {
@@ -207,14 +208,12 @@ namespace ADOEmployeePayrollTesting
         public void GivenInsertQuery_usingMultiThreading_returnOne()
         {
             int expected = 1;
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
             TransactionClass transactionClass = new TransactionClass();
-            int actual = transactionClass.InsertIntoTables();
-            stopWatch.Stop();
-            Console.WriteLine("Duration without thread: {0}", stopWatch.ElapsedMilliseconds);
+            int actual = transactionClass.ImplementwithoutUsingThread();
             Assert.AreEqual(actual, expected);
         }
+        //MultiThreading: Usecase 2
+        //Usecase 11: Delete using Cascade Delete alteration
 
     }
 }

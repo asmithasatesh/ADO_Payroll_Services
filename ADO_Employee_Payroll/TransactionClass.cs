@@ -143,6 +143,21 @@ namespace ADO_Employee_Payroll
             SqlConnection.Close();
             return result;
         }
+        //MultiThreading: Usecase 1
+        //Usecase 10: Retrieve in ER using Transaction
+        public int ImplementwithoutUsingThread()
+        {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            RetrieveAllData();
+            stopWatch.Stop();
+            Console.WriteLine("Duration without thread: {0}", stopWatch.ElapsedMilliseconds);
+            if(Convert.ToInt32(stopWatch.ElapsedMilliseconds)!=0)
+            {
+                return 1;
+            }
+            return 0;
+        }
 
         public void  RetrieveAllData()
         {
