@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
-
+using System.Threading.Tasks;
 
 namespace ADO_Employee_Payroll
 {
@@ -158,6 +158,20 @@ namespace ADO_Employee_Payroll
             }
             return 0;
         }
+        //MultiThreading: Usecase 2
+        public int ImplementUsingThread()
+        {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            RetrieveAllData();
+            stopWatch.Stop();
+            Console.WriteLine("Duration without thread: {0}", stopWatch.ElapsedMilliseconds);
+            if (Convert.ToInt32(stopWatch.ElapsedMilliseconds) != 0)
+            {
+                return 1;
+            }
+            return 0;
+        }
 
         public void  RetrieveAllData()
         {
@@ -168,7 +182,11 @@ namespace ADO_Employee_Payroll
             {
                 string query = "SELECT CompanyID,IsActive,CompanyName,EmployeeID,EmployeeName,EmployeeAddress,EmployeePhoneNumber,StartDate,Gender,BasicPay,Deductions,TaxablePay,IncomeTax,NetPay,DepartName FROM Company INNER JOIN Employee ON Company.CompanyID = Employee.CompanyIdentity and Employee.IsActive=1 INNER JOIN PayrollCalculate on PayrollCalculate.EmployeeIdentity = Employee.EmployeeID INNER JOIN EmployeeDepartment on Employee.EmployeeID = EmployeeDepartment.EmployeeIdentity INNER JOIN Department on Department.DepartmentId = EmployeeDepartment.DepartmentIdentity";
                 SqlCommand sqlCommand = new SqlCommand(query, SqlConnection);
+            Task task = new Task(() =>
+            {
                 DisplayEmployeeDetails(sqlCommand);
+            });
+                task.Start();
             }
             catch (Exception ex)
             {
