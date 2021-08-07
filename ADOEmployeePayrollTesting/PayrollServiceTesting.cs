@@ -148,7 +148,7 @@ namespace ADOEmployeePayrollTesting
         public void GivenGenderMale_ERTable_GroupBygender_ReturnAggregateFunction()
         {
             EmployeeDataManager employeeDataManager = new EmployeeDataManager();
-            string expected = "39000000 9000000 30000000 19500000 2";
+            string expected = "30000000 30000000 30000000 30000000 1";
             string query = "select sum(PayrollCalculate.BasicPay),min(PayrollCalculate.BasicPay),max(PayrollCalculate.BasicPay),Round(AVG(PayrollCalculate.BasicPay),0),COUNT(*)  from Employee inner join PayrollCalculate on Employee.EmployeeId = PayrollCalculate.EmployeeIdentity where Employee.Gender = 'M' group by Employee.Gender";
             string actual = eRRepository.AggregateFunctionBasedOnGender(query);
             Assert.AreEqual(actual, expected);
@@ -197,7 +197,7 @@ namespace ADOEmployeePayrollTesting
             int expected = 1;
             TransactionClass transactionClass = new TransactionClass();
             int actual = transactionClas.MaintainListforAudit(6);
-            transactionClass.RetrieveAllData();
+            transactionClass.RetrieveAllData(1);
             Assert.AreEqual(actual, expected);
         }
 

@@ -149,7 +149,7 @@ namespace ADO_Employee_Payroll
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            RetrieveAllData();
+            RetrieveAllData(1);
             stopWatch.Stop();
             Console.WriteLine("Duration without thread: {0}", stopWatch.ElapsedMilliseconds);
             if(Convert.ToInt32(stopWatch.ElapsedMilliseconds)!=0)
@@ -158,14 +158,16 @@ namespace ADO_Employee_Payroll
             }
             return 0;
         }
+
+
         //MultiThreading: Usecase 2
         public int ImplementUsingThread()
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            RetrieveAllData();
+            RetrieveAllData(2);
             stopWatch.Stop();
-            Console.WriteLine("Duration without thread: {0}", stopWatch.ElapsedMilliseconds);
+            Console.WriteLine("Duration  thread: {0}", stopWatch.ElapsedMilliseconds);
             if (Convert.ToInt32(stopWatch.ElapsedMilliseconds) != 0)
             {
                 return 1;
@@ -173,7 +175,7 @@ namespace ADO_Employee_Payroll
             return 0;
         }
 
-        public void  RetrieveAllData()
+        public void  RetrieveAllData(int n)
         {
             //Open Connection
             SqlConnection.Open();
@@ -182,7 +184,7 @@ namespace ADO_Employee_Payroll
             {
                 string query = "SELECT CompanyID,IsActive,CompanyName,EmployeeID,EmployeeName,EmployeeAddress,EmployeePhoneNumber,StartDate,Gender,BasicPay,Deductions,TaxablePay,IncomeTax,NetPay,DepartName FROM Company INNER JOIN Employee ON Company.CompanyID = Employee.CompanyIdentity and Employee.IsActive=1 INNER JOIN PayrollCalculate on PayrollCalculate.EmployeeIdentity = Employee.EmployeeID INNER JOIN EmployeeDepartment on Employee.EmployeeID = EmployeeDepartment.EmployeeIdentity INNER JOIN Department on Department.DepartmentId = EmployeeDepartment.DepartmentIdentity";
                 SqlCommand sqlCommand = new SqlCommand(query, SqlConnection);
-                DisplayEmployeeDetails(sqlCommand);
+                DisplayEmployeeDetails(sqlCommand,n);
             }
             catch (Exception ex)
             {
@@ -193,10 +195,10 @@ namespace ADO_Employee_Payroll
             SqlConnection.Close();
             return;
         }
-        public void DisplayEmployeeDetails(SqlCommand sqlCommand)
+        public void DisplayEmployeeDetails(SqlCommand sqlCommand,int n)
         {
             SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-            //Check if swlDataReader has Rows
+            //Check if sqlDataReader has Rows
             if (sqlDataReader.HasRows)
             {
                 //Read each row
@@ -221,13 +223,24 @@ namespace ADO_Employee_Payroll
                     employeeDataManager.StartDate = Convert.ToDateTime(sqlDataReader["StartDate"]);
                     employeeDataManager.IsActive = Convert.ToInt32(sqlDataReader["IsActive"]);
                     employeeList.Add(employeeDataManager);
-                    //Display Data
-                    Task task = new Task(() =>
+                    if(n==1)
                     {
+                        //Display Data
                         Console.WriteLine("\nCompany ID: {0} \t Company Name: {1} \nEmployee ID: {2} \t Employee Name: {3} \nBasic Pay: {4} \t Deduction: {5} \t Income Tax: {6} \t Taxable Pay: {7} \t NetPay: {8} \nGender: {9} \t PhoneNumber: {10} \t Department: {11} \t Address: {12} \t Start Date: {13} \t IsActive: {14}", employeeDataManager.CompanyID, employeeDataManager.CompanyName, employeeDataManager.EmployeeID, employeeDataManager.EmployeeName, employeeDataManager.BasicPay, employeeDataManager.Deduction, employeeDataManager.IncomeTax, employeeDataManager.TaxablePay, employeeDataManager.NetPay, employeeDataManager.Gender, employeeDataManager.EmployeePhoneNumber, employeeDataManager.EmployeeDepartment, employeeDataManager.Address, employeeDataManager.StartDate, employeeDataManager.IsActive);
 
-                    });
-                    task.Start();
+                    }
+                    if (n == 2)
+                    {
+                        Task task = new Task(() =>
+                        {
+                            lock (this)
+                            {
+                                //Display Data
+                                Console.WriteLine("\nCompany ID: {0} \t Company Name: {1} \nEmployee ID: {2} \t Employee Name: {3} \nBasic Pay: {4} \t Deduction: {5} \t Income Tax: {6} \t Taxable Pay: {7} \t NetPay: {8} \nGender: {9} \t PhoneNumber: {10} \t Department: {11} \t Address: {12} \t Start Date: {13} \t IsActive: {14}", employeeDataManager.CompanyID, employeeDataManager.CompanyName, employeeDataManager.EmployeeID, employeeDataManager.EmployeeName, employeeDataManager.BasicPay, employeeDataManager.Deduction, employeeDataManager.IncomeTax, employeeDataManager.TaxablePay, employeeDataManager.NetPay, employeeDataManager.Gender, employeeDataManager.EmployeePhoneNumber, employeeDataManager.EmployeeDepartment, employeeDataManager.Address, employeeDataManager.StartDate, employeeDataManager.IsActive);
+                            }
+                        });
+                        task.Start();
+                    }
                 }
 
                 //Close sqlDataReader Connection
